@@ -5,6 +5,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import routes from './routes';
 import { errorHandler } from './middleware/errorHandler';
+import rateLimit from 'express-rate-limit';
 
 dotenv.config();
 
@@ -18,9 +19,19 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
+// Rate limiter configuration
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 300,
+  message: 'Too many requests from this IP, please try again later.',
+  headers: true,
+});
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(limiter);
+
 app.use(routes);
 
 // Error handler middleware
