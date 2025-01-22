@@ -11,6 +11,7 @@ const EmployeeSchema: Schema = new Schema(
     name: { type: String, required: true },
     email: { type: String, required: false },
     number: { type: String, required: false },
+    gender: { type: String, required: false }
   },
   {
     timestamps: true,  // Adds createdAt and updatedAt fields

@@ -10,7 +10,7 @@ const ServiceSchema: Schema = new Schema(
   {
     name: { type: String, required: true, unique: true },
     amount: { type: Number, required: true },
-    description: { type: String, required: true }
+    description: { type: String, required: false },
   },
   {
     timestamps: true,  // Adds createdAt and updatedAt fields
