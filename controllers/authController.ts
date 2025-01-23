@@ -24,12 +24,14 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
 
     const validPassword = await bcrypt.compare(password, admin.password);
     if (!validPassword) return res.status(400).json({ message: 'Invalid email or password' });
+    const authSecret = process.env.SECRET_TOKEN;
+    if(!authSecret) throw new Error('Auth secret not found');
 
-    const accessToken = jwt.sign({ id: admin._id }, process.env.SECRET_TOKEN as string, { expiresIn: '15m' });
-    const refreshToken = jwt.sign({ id: admin._id }, process.env.SECRET_TOKEN as string);
+    const accessToken = jwt.sign({ id: admin._id }, process.env.SECRET_TOKEN as string, { expiresIn: '15d' });
 
-    res.json({ email, name: admin.name, number: admin.number, accessToken, refreshToken });
+    res.json({name: admin.name, accessToken,});
   } catch (error) {
+
     next(error);
   }
 };

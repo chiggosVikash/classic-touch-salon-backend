@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : 'http://localhost:3003',
+  origin: process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : "*",
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
@@ -23,7 +23,7 @@ const corsOptions = {
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, 
   max: 300,
-  message: 'Too many requests from this IP, please try again later.',
+  message: 'Too many requests from this IP, please try again 15 Min.',
   headers: true,
 });
 
