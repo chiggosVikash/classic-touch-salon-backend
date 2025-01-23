@@ -13,6 +13,7 @@ export const authenticateToken = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+    console.log("Auth request ",req.headers)
     const authHeader = req.headers['authorization'];
 
     // Check if the authorization header exists and has the correct format
@@ -33,7 +34,6 @@ export const authenticateToken = async (
     // Verify the token
     const user = jwt.verify(token, secret) as JwtPayload | string;
     req.user = user; // Attach user info to the request object
-
     next(); // Proceed to the next middleware or route handler
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {

@@ -3,10 +3,12 @@ import Employee, { IEmployee } from '../models/employee';
 
 export const createEmployee = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    console.log("Create employee request received");
     const employee = new Employee(req.body as IEmployee);
     await employee.save();
     res.status(201).json(employee);
   } catch (error) {
+    console.log(error);
     next({ status: 400, message: 'Error creating employee', error });
   }
 };

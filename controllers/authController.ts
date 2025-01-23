@@ -29,6 +29,9 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
 
     const accessToken = jwt.sign({ id: admin._id }, process.env.SECRET_TOKEN as string, { expiresIn: '15d' });
 
+    /// set token in cookies
+    res.setHeader('authorization', `Bearer ${accessToken}`);
+
     res.json({name: admin.name, accessToken,});
   } catch (error) {
 

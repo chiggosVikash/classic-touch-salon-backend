@@ -9,7 +9,7 @@ export const adminSchema = Joi.object({
 
 export const employeeSchema = Joi.object({
   name: Joi.string().required(),
-  email: Joi.string().email(),
+  email: Joi.string().email().optional().allow("").empty(""),
   number: Joi.string(),
   gender: Joi.string(),
 });
