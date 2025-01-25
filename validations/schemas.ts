@@ -17,7 +17,7 @@ export const employeeSchema = Joi.object({
 export const serviceSchema = Joi.object({
   name: Joi.string().required(),
   amount: Joi.number().positive().required(),
-  description: Joi.string().required(),
+  description: Joi.string().optional().allow("").empty(""),
 });
 
 export const billSchema = Joi.object({
