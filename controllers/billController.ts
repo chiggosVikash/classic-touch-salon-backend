@@ -6,20 +6,22 @@ import Service from '../models/service';
 
 export const createBill = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { employeeId, services, tip, discount, paymentMethod } = req.body;
+    const {employeeId,tipAmount,discountAmount,paymentMode,paymentDate,serviceIds,customerName,customerPhoneNumber} = req.body;
 
-    const serviceObjects = await Service.find({ _id: { $in: services } });
+    const serviceObjects = await Service.find({ _id: { $in: serviceIds } });
     const subtotal = serviceObjects.reduce((sum, service) => sum + service.amount, 0);
-    const amount = subtotal - discount + tip;
+    const amount = subtotal - discountAmount;
 
     const bill = new Bill({
       employeeId,
-      services,
+      serviceIds,
       amount,
-      tip,
-      discount,
-      paymentMethod,
-      date: new Date(),
+      tipAmount,
+      discountAmount,
+      paymentMode,
+      date: paymentDate,
+      customerName,
+      customerPhoneNumber,
     });
     await bill.save();
 
@@ -28,24 +30,24 @@ export const createBill = async (req: Request, res: Response, next: NextFunction
       return next({ status: 404, message: 'Employee not found' });
     }
 
-    await sendEmail({
-      to: employee.email,
-      subject: 'New Bill Generated',
-      text: `A new bill of $${bill.amount} has been generated for your services.`,
-      html: `
-        <h1>New Bill Generated</h1>
-        <p>A new bill has been generated for your services:</p>
-        <ul>
-          <li>Subtotal: $${subtotal}</li>
-          <li>Discount: $${discount}</li>
-          <li>Tip: $${tip}</li>
-          <li>Total Amount: $${amount}</li>
-          <li>Payment Method: ${paymentMethod}</li>
-          <li>Date: ${bill.date.toLocaleDateString()}</li>
-          <li>Services: ${serviceObjects.map((s) => s.name).join(', ')}</li>
-        </ul>
-      `,
-    });
+    // await sendEmail({
+    //   to: employee.email,
+    //   subject: 'New Bill Generated',
+    //   text: `A new bill of $${bill.amount} has been generated for your services.`,
+    //   html: `
+    //     <h1>New Bill Generated</h1>
+    //     <p>A new bill has been generated for your services:</p>
+    //     <ul>
+    //       <li>Subtotal: $${subtotal}</li>
+    //       <li>Discount: $${discountAmount}</li>
+    //       <li>Tip: $${tipAmount}</li>
+    //       <li>Total Amount: $${amount}</li>
+    //       <li>Payment Method: ${paymentMode}</li>
+    //       <li>Date: ${paymentDate}</li>
+    //       <li>Services: ${serviceObjects.map((s) => s.name).join(', ')}</li>
+    //     </ul>
+    //   `,
+    // });
 
     res.status(201).json(bill);
   } catch (error) {

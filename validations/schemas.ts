@@ -22,16 +22,14 @@ export const serviceSchema = Joi.object({
 
 export const billSchema = Joi.object({
   employeeId: Joi.string().required(),
-  services: Joi.array().items(Joi.string().required()).min(1).required(),
+  serviceIds: Joi.array().items(Joi.string().required()).min(1).required(),
   amount: Joi.number().min(0).required(),
-  tip: Joi.number().min(0).default(0),
-  discount: Joi.number().min(0).default(0),
-  paymentMethod: Joi.string().valid('cash', 'online').required(),
-  date: Joi.date().default(() => new Date(),),
-  user: Joi.object({
-    name: Joi.string().optional(),
-    number: Joi.number().optional(),
-  }).optional(),
+  tipAmount: Joi.number().min(0).default(0),
+  discountAmount: Joi.number().min(0).default(0),
+  paymentMode: Joi.string().valid('cash', 'online').required(),
+  paymentDate: Joi.string().default(new Date().toISOString()),
+  customerName: Joi.string().optional().allow("").empty(""),
+  customerPhoneNumber: Joi.string().optional().allow("").empty(""),
 });
 
 export const loginSchema = Joi.object({
