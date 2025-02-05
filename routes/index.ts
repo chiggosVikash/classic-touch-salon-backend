@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { createEmployee, getEmployees, getEmployee, updateEmployee, deleteEmployee } from '../controllers/employeeController';
-import { createBill, getBills } from '../controllers/billController';
+import { createBill, customBillReports, dashboardInsights, employeeWorkInsights, getBillById, getBills, updateBill } from '../controllers/billController';
 import { generateSalesReport, generateEmployeeReport } from '../controllers/reportController';
 import { createService, getServices, getService, updateService, deleteService } from '../controllers/serviceController';
 import { authenticateToken } from '../middleware/auth';
@@ -35,9 +35,13 @@ router.delete('/employees/:id', deleteEmployee);
 // Bill routes
 router.post('/bills', validateRequest(billSchema), createBill);
 router.get('/bills', getBills);
+router.put('/bill/:id',validateRequest(billSchema),updateBill)
+router.get('/bill/:id',getBillById)
+router.get('/dashboardInsights', dashboardInsights);
+router.get('/employeeInsights/:employeeId',employeeWorkInsights)
 
 // Report routes
-router.get('/reports/sales', generateSalesReport);
+router.get('/reports/:from/:to', customBillReports);
 router.get('/reports/employees', generateEmployeeReport);
 
 // Service routes
