@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import Bill from "../models/bill";
-import { sendEmail } from "../utils/emailService";
 import Employee from "../models/employee";
 import Service from "../models/service";
-import { strict } from "assert";
 import mongoose from "mongoose";
+import emailService from "../utils/emailService";
 
 export const getBillById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -45,6 +44,8 @@ export const createBill = async (
     );
     const amount = subtotal - discountAmount;
 
+    
+
     const bill = new Bill({
       employeeId,
       serviceIds,
@@ -62,6 +63,15 @@ export const createBill = async (
     if (!employee) {
       return next({ status: 404, message: "Employee not found" });
     }
+
+    // Send email to owner
+    emailService.sendPaymentReceivedNotification({
+      amount: bill.amount,
+      date: bill.paymentDate,
+      serviceBy: employee.name,
+      customerName: bill.customerName,
+      customerPhone: bill.customerPhoneNumber,
+    })
 
     // await sendEmail({
     //   to: employee.email,
@@ -84,6 +94,7 @@ export const createBill = async (
 
     res.status(201).json(bill);
   } catch (error) {
+    console.log(error);
     next({ status: 400, message: "Error creating bill", error });
   }
 };
