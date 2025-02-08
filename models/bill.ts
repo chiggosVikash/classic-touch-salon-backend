@@ -20,7 +20,7 @@ const BillSchema: Schema = new Schema(
     tipAmount: { type: Number, default: 0 },
     discountAmount: { type: Number, default: 0 },
     paymentMode: { type: String, enum: ['cash', 'online'], required: true },
-    paymentDate: { type: String, default: new Date().toISOString() },
+    paymentDate: { type: String, required:true},
     serviceIds: [{ type: Schema.Types.ObjectId, ref: 'Service' }],
     customerName: { type: String },
     customerPhoneNumber: { type: String },

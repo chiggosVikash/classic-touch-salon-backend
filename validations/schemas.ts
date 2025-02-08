@@ -27,7 +27,7 @@ export const billSchema = Joi.object({
   tipAmount: Joi.number().min(0).default(0),
   discountAmount: Joi.number().min(0).default(0),
   paymentMode: Joi.string().valid('cash', 'online').required(),
-  paymentDate: Joi.string().default(new Date().toISOString()),
+  paymentDate: Joi.string().required(),
   customerName: Joi.string().optional().allow("").empty(""),
   customerPhoneNumber: Joi.string().optional().allow("").empty(""),
 });

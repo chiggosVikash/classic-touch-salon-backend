@@ -44,6 +44,8 @@ export const createBill = async (
     );
     const amount = subtotal - discountAmount;
 
+    console.log("body request ",req.body)
+
     
 
     const bill = new Bill({
@@ -53,7 +55,7 @@ export const createBill = async (
       tipAmount,
       discountAmount,
       paymentMode,
-      date: paymentDate,
+      paymentDate,
       customerName,
       customerPhoneNumber,
     });
@@ -65,13 +67,13 @@ export const createBill = async (
     }
 
     // Send email to owner
-    emailService.sendPaymentReceivedNotification({
-      amount: bill.amount,
-      date: bill.paymentDate,
-      serviceBy: employee.name,
-      customerName: bill.customerName,
-      customerPhone: bill.customerPhoneNumber,
-    })
+    // emailService.sendPaymentReceivedNotification({
+    //   amount: bill.amount,
+    //   date: paymentDate,
+    //   serviceBy: employee.name,
+    //   customerName: customerName,
+    //   customerPhone: customerPhoneNumber,
+    // })
 
     // await sendEmail({
     //   to: employee.email,
@@ -102,7 +104,18 @@ export const createBill = async (
 export const updateBill = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { id } = req.params;
-    const updatedBill = await Bill.findByIdAndUpdate(id, req.body, { new: true });
+    const employeeData = req.body;
+    console.log("employee data is ",employeeData)
+    const updatedBill = await Bill.findByIdAndUpdate(id, {
+      employeeId: employeeData.employeeId,
+      amount:employeeData.amount,
+      tipAmount:employeeData.tipAmount,
+      paymentMode:employeeData.paymentMode,
+      paymentDate:employeeData.paymentDate,
+      serviceIds:employeeData.serviceIds,
+      customerName:employeeData.customerName,
+      customerPhoneNumber:employeeData.customerPhoneNumber
+    }, { new: true });
     if (!updatedBill) {
       return next({ status: 404, message: "Bill not found" });
     }
