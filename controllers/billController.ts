@@ -67,13 +67,13 @@ export const createBill = async (
     }
 
     // Send email to owner
-    // emailService.sendPaymentReceivedNotification({
-    //   amount: bill.amount,
-    //   date: paymentDate,
-    //   serviceBy: employee.name,
-    //   customerName: customerName,
-    //   customerPhone: customerPhoneNumber,
-    // })
+    emailService.sendPaymentReceivedNotification({
+      amount: bill.amount,
+      date: paymentDate,
+      serviceBy: employee.name,
+      customerName: customerName,
+      customerPhone: customerPhoneNumber,
+    })
 
     // await sendEmail({
     //   to: employee.email,
