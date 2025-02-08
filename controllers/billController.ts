@@ -44,10 +44,6 @@ export const createBill = async (
     );
     const amount = subtotal - discountAmount;
 
-    console.log("body request ",req.body)
-
-    
-
     const bill = new Bill({
       employeeId,
       serviceIds,
@@ -105,7 +101,6 @@ export const updateBill = async (req: Request, res: Response, next: NextFunction
   try {
     const { id } = req.params;
     const employeeData = req.body;
-    console.log("employee data is ",employeeData)
     const updatedBill = await Bill.findByIdAndUpdate(id, {
       employeeId: employeeData.employeeId,
       amount:employeeData.amount,
@@ -114,6 +109,7 @@ export const updateBill = async (req: Request, res: Response, next: NextFunction
       paymentDate:employeeData.paymentDate,
       serviceIds:employeeData.serviceIds,
       customerName:employeeData.customerName,
+      discountAmount:employeeData.discountAmount,
       customerPhoneNumber:employeeData.customerPhoneNumber
     }, { new: true });
     if (!updatedBill) {
