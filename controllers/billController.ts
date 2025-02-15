@@ -128,7 +128,7 @@ export const getBills = async (
 ): Promise<void> => {
   try {
     const bills = await Bill.find()
-      .sort({ paymentDate: -1 })
+      .sort({ paymentDate: -1,createdAt:-1 })
       .populate("employeeId", "name")
       .populate("serviceIds", "name");
     res.status(200).json(bills);
