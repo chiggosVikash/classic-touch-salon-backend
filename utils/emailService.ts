@@ -94,7 +94,7 @@ class EmailService {
     sendSmtpEmail.to = [{ email: "avinash150174@gmail.com", name: "Salon Owner" }];
 
     try {
-      const response = await this.apiInstance.sendTransacEmail(sendSmtpEmail);
+      const response = await this.apiInstance.sendTransacEmail(sendSmtpEmail)
       console.log("Email sent successfully:", response.response.statusCode);
     } catch (error) {
       console.error("Error sending email:", error);
