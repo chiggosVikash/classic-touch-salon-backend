@@ -446,7 +446,7 @@ export const employeeWorkInsights = async (
           },
           {
             $project: {
-              incentive: { $multiply: ["$totalSales", 0.2] },
+              incentive: { $multiply: ["$totalSales", 0.1] },
             },
           },
         ],
