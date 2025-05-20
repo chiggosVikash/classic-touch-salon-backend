@@ -2,11 +2,14 @@
   "name": "classic-touch-saloon-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
     "build": "tsc",
-    "start": "tsc && node dist/server.js",
+    "start": "node dist/server.js",
     "dev": "node --env-file=.env --watch -r ts-node/register server.ts",
+    "vercel-build": "tsc",
+    "vercel-dev": "vercel dev",
+    "deploy": "vercel deploy --prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "ParivartanX",
@@ -14,6 +17,7 @@
   "devDependencies": {
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.10.7",
+    "@vercel/node": "^5.1.16",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   },
