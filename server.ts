@@ -71,9 +71,6 @@ const connectDB = async () => {
 // Connect to database
 connectDB();
 
-// Connect to database
-connectDB();
-
 // Only start the server in development mode
 // In Vercel serverless environment, the serverless function
 // will handle the requests without explicitly listening
