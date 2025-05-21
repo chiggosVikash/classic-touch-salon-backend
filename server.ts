@@ -58,7 +58,7 @@ const connectDB = async () => {
   }
   
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/saloon_management');
+    await mongoose.connect(process.env.MONGODB_URI);
     isConnected = true;
     console.log('Connected to MongoDB');
   } catch (err) {
